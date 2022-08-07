@@ -162,11 +162,10 @@ const CreateData = () => {
                       <td>{status}</td>
                       <td>{time}</td>
                       <td>
-                       
                         <label
                           htmlFor="my-modal-3"
-                                    class="btn modal-button btn-sm bg-success outline-none border-none mr-1 hover:bg-success"
-                                    onClick={()=>setUpdateData(passingData)}
+                          class="btn modal-button btn-sm bg-success outline-none border-none mr-1 hover:bg-success"
+                          onClick={() => setUpdateData(passingData)}
                         >
                           Update
                         </label>
@@ -190,13 +189,12 @@ const CreateData = () => {
       {deleteData && (
         <DeleteModal
           deleteData={deleteData}
-          handelDelete={handelDelete}
+                  handelDelete={handelDelete}
+                  refetch={refetch}
         ></DeleteModal>
-          )}
-          
-          <UpdateData>
-              
-          </UpdateData>
+      )}
+
+      {updateData && <UpdateData updateData={updateData}></UpdateData>}
     </>
   );
 };
