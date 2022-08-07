@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { useQuery } from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const CreateData = () => {
-  const [showData, setShowData] = useState([]);
   const [validateData, setValidateData] = useState(false);
+  
+  const { isLoading, error, data,refetch } = useQuery(['showData'], () =>
+    fetch('http://localhost:5000/getData').then((res) => res.json())
+  );
+    console.log(data);
   const getFormData = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -31,8 +36,9 @@ const CreateData = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.acknowledged) {
-              toast.success('Data creation successful');
+            toast.success('Data creation successful');
               e.target.reset();
+              refetch();
           }
         });
     }
@@ -97,7 +103,7 @@ const CreateData = () => {
               )}
               <input
                 type="submit"
-                className="input input-bordered w-full max-w-xs mt-4 bg-primary text-white font-bold text-xl"
+                className="input input-bordered w-full max-w-xs mt-4 bg-primary text-white font-bold text-xl cursor-pointer "
                 value="Submit"
               />
               <ToastContainer />
@@ -120,7 +126,7 @@ const CreateData = () => {
               </tr>
             </thead>
             <tbody>
-              {showData?.map(({ title, description, status, time }, index) => {
+              {data?.map(({ title, description, status, time }, index) => {
                 return (
                   <>
                     <tr>
