@@ -88,7 +88,42 @@ const CreateData = () => {
           </form>
         </div>
       </div>
-     
+      <div className='w-[95%] mx-auto'>
+        <h2 className="text-3xl font-bold mt-10 mb-5">Show Data</h2>
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {showData?.map(({ title,description,status,time }, index) => {
+                return (
+                  <>
+                    <tr>
+                      <th>{index + 1}</th>
+                      <td>{title}</td>
+                      <td>{description}</td>
+                      <td>{status}</td>
+                      <td>{time}</td>
+                      <td>
+                      <button class="btn btn-sm bg-success outline-none border-none mr-1 hover:bg-success">Update</button>
+                      <button class="btn btn-sm bg-error outline-none border-none hover:bg-error">Delete</button>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   );
 };
