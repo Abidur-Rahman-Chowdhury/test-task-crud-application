@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const UpdateData = ({ updateData,refetch }) => {
+const UpdateData = ({ updateData,refetch,setUpdateData }) => {
     const { _id, title, description, status, time } = updateData;
     console.log(_id);
     const [updateValidation, setUpdateValidation] = useState(false);
@@ -25,7 +25,7 @@ const UpdateData = ({ updateData,refetch }) => {
         } else {
             
             fetch(`http://localhost:5000/updateData/${_id}`, {
-                method: 'PATCH',
+                method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json',
                 },
@@ -33,7 +33,12 @@ const UpdateData = ({ updateData,refetch }) => {
               })
                 .then((res) => res.json())
                 .then((data) => {
-                 console.log(data);
+                    console.log(data);
+                    if (data.modifiedCount > 0) {
+                        toast.success('Data successfully updated');
+                        refetch();
+                        setUpdateData(null)
+                 }
                 });
         }
     }
@@ -106,7 +111,7 @@ const UpdateData = ({ updateData,refetch }) => {
                 className="input input-bordered w-full max-w-xs mt-4 bg-primary text-white font-bold text-xl cursor-pointer "
                 value="Update Data"
               />
-              <ToastContainer />
+             
             </div>
           </form>
         </div>

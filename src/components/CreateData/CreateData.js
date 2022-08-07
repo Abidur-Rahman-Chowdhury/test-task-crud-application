@@ -202,7 +202,7 @@ const CreateData = () => {
         ></DeleteModal>
       )}
 
-      {updateData && <UpdateData updateData={updateData}></UpdateData>}
+      {updateData && <UpdateData updateData={updateData} refetch={refetch} setUpdateData={setUpdateData}></UpdateData>}
     </>
   );
 };
