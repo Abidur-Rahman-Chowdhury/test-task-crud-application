@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import CsvDownload from 'react-json-to-csv';
 import { useQuery } from 'react-query';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -131,7 +132,14 @@ const CreateData = () => {
         </div>
       </div>
       <div className="w-[95%] mx-auto">
-        <h2 className="text-3xl font-bold mt-10 mb-5">Show Data</h2>
+        <div className='flex gap-2 justify-center items-center '>
+          <h2 className="text-3xl font-bold mt-10 mb-5">Show Data</h2>
+          <span>
+            <CsvDownload data={data} filename="good_data.csv" className="btn btn-small mt-4 bg-primary rounded-md hover:bg-primary-focus">
+             Download 
+            </CsvDownload>
+          </span>
+        </div>
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
@@ -189,8 +197,8 @@ const CreateData = () => {
       {deleteData && (
         <DeleteModal
           deleteData={deleteData}
-                  handelDelete={handelDelete}
-                  refetch={refetch}
+          handelDelete={handelDelete}
+          refetch={refetch}
         ></DeleteModal>
       )}
 
