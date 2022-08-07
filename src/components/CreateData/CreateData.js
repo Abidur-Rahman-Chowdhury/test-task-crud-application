@@ -1,30 +1,29 @@
 import React, { useState } from 'react';
 
 const CreateData = () => {
-  const [showData, setShowData] = useState([
-    {
-      title: 'Job',
-      description: 'habijabi',
-      status: 'kapjab',
-      time: '11:12',
-    },
-  ]);
-  console.log(showData);
+  const [showData, setShowData] = useState([]);
+    const [validateData, setValidateData] = useState(false);
   const getFormData = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
     const description = e.target.description.value;
     const status = e.target.status.value;
-    const time = e.target.time.value;
-
-    const formData = {
-      title,
-      description,
-      status,
-      time,
-    };
-
-    setShowData([...showData,formData  ]);
+      const time = e.target.time.value;
+      
+      if (title === '' || description === '' || status === ''  || time === '') {
+          setValidateData(true);
+      }
+      else {
+        const formData = {
+            title,
+            description,
+            status,
+            time,
+          };
+          setValidateData(false);
+          setShowData([...showData,formData  ]);
+   }
+  
   };
   return (
     <>
@@ -78,7 +77,10 @@ const CreateData = () => {
                 className="input input-bordered w-full max-w-xs"
               />
             </div>
-            <div className="form-control w-full max-w-xs">
+                      <div className="form-control w-full max-w-xs">
+                          {
+                              validateData && <p className='text-error pt-3'>Please fill up all the data fields </p>
+                          }
               <input
                 type="submit"
                 className="input input-bordered w-full max-w-xs mt-4 bg-primary text-white font-bold text-xl"
