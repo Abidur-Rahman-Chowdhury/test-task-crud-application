@@ -1,29 +1,41 @@
 import React, { useState } from 'react';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const CreateData = () => {
   const [showData, setShowData] = useState([]);
-    const [validateData, setValidateData] = useState(false);
+  const [validateData, setValidateData] = useState(false);
   const getFormData = (e) => {
     e.preventDefault();
     const title = e.target.title.value;
     const description = e.target.description.value;
     const status = e.target.status.value;
-      const time = e.target.time.value;
-      
-      if (title === '' || description === '' || status === ''  || time === '') {
-          setValidateData(true);
-      }
-      else {
-        const formData = {
-            title,
-            description,
-            status,
-            time,
-          };
-          setValidateData(false);
-          setShowData([...showData,formData  ]);
-   }
-  
+    const time = e.target.time.value;
+
+    if (title === '' || description === '' || status === '' || time === '') {
+      setValidateData(true);
+    } else {
+      const formData = {
+        title,
+        description,
+        status,
+        time,
+      };
+      setValidateData(false);
+      fetch('http://localhost:5000/storeData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.acknowledged) {
+              toast.success('Data creation successful');
+              e.target.reset();
+          }
+        });
+    }
   };
   return (
     <>
@@ -77,20 +89,23 @@ const CreateData = () => {
                 className="input input-bordered w-full max-w-xs"
               />
             </div>
-                      <div className="form-control w-full max-w-xs">
-                          {
-                              validateData && <p className='text-error pt-3'>Please fill up all the data fields </p>
-                          }
+            <div className="form-control w-full max-w-xs">
+              {validateData && (
+                <p className="text-error pt-3">
+                  Please fill up all the data fields{' '}
+                </p>
+              )}
               <input
                 type="submit"
                 className="input input-bordered w-full max-w-xs mt-4 bg-primary text-white font-bold text-xl"
                 value="Submit"
               />
+              <ToastContainer />
             </div>
           </form>
         </div>
       </div>
-      <div className='w-[95%] mx-auto'>
+      <div className="w-[95%] mx-auto">
         <h2 className="text-3xl font-bold mt-10 mb-5">Show Data</h2>
         <div className="overflow-x-auto">
           <table className="table w-full">
@@ -105,7 +120,7 @@ const CreateData = () => {
               </tr>
             </thead>
             <tbody>
-              {showData?.map(({ title,description,status,time }, index) => {
+              {showData?.map(({ title, description, status, time }, index) => {
                 return (
                   <>
                     <tr>
@@ -115,8 +130,12 @@ const CreateData = () => {
                       <td>{status}</td>
                       <td>{time}</td>
                       <td>
-                      <button class="btn btn-sm bg-success outline-none border-none mr-1 hover:bg-success">Update</button>
-                      <button class="btn btn-sm bg-error outline-none border-none hover:bg-error">Delete</button>
+                        <button class="btn btn-sm bg-success outline-none border-none mr-1 hover:bg-success">
+                          Update
+                        </button>
+                        <button class="btn btn-sm bg-error outline-none border-none hover:bg-error">
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   </>
