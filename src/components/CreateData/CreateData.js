@@ -11,7 +11,7 @@ const CreateData = () => {
   const [updateData, setUpdateData] = useState(null);
   console.log(deleteData);
 
-  const { isLoading, error, data, refetch } = useQuery(['showData'], () =>
+  const {  data, refetch } = useQuery(['showData'], () =>
     fetch('http://localhost:5000/getData').then((res) => res.json())
   );
   console.log(data);
@@ -202,7 +202,7 @@ const CreateData = () => {
         ></DeleteModal>
       )}
 
-      {updateData && <UpdateData updateData={updateData}></UpdateData>}
+      {updateData && <UpdateData updateData={updateData} refetch={refetch} setUpdateData={setUpdateData}></UpdateData>}
     </>
   );
 };
