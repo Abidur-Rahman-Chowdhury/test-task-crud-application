@@ -24,7 +24,7 @@ const UpdateData = ({ updateData,refetch,setUpdateData }) => {
             setUpdateValidation(true);
         } else {
             
-            fetch(`http://localhost:5000/updateData/${_id}`, {
+            fetch(`https://vast-castle-09974.herokuapp.com/updateData/${_id}`, {
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json',

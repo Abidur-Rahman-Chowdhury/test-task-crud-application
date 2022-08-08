@@ -12,12 +12,12 @@ const CreateData = () => {
   console.log(deleteData);
 
   const {  data, refetch } = useQuery(['showData'], () =>
-    fetch('http://localhost:5000/getData').then((res) => res.json())
+    fetch('https://vast-castle-09974.herokuapp.com/getData').then((res) => res.json())
   );
   console.log(data);
 
   const handelDelete = (id) => {
-    fetch(`http://localhost:5000/deleteData/${id}`, {
+    fetch(`https://vast-castle-09974.herokuapp.com/deleteData/${id}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())
@@ -46,7 +46,7 @@ const CreateData = () => {
         time,
       };
       setValidateData(false);
-      fetch('http://localhost:5000/storeData', {
+      fetch('https://vast-castle-09974.herokuapp.com/storeData', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
