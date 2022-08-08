@@ -11,6 +11,7 @@ const CreateData = () => {
   const [validateData, setValidateData] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [updateData, setUpdateData] = useState(null);
+  const [showImportData, setShowImportData] = useState(false);
 
   // parse csv data
 
@@ -101,6 +102,7 @@ const CreateData = () => {
 
         // Filtered Values
         setValues(valuesArray);
+        setShowImportData(true)
       },
     });
   };
@@ -248,7 +250,7 @@ const CreateData = () => {
         </div>
       </div>
 
-      { values &&  <ShowImportData tableRows={tableRows} values={values}></ShowImportData>}
+      { showImportData &&  <ShowImportData tableRows={tableRows} values={values}></ShowImportData>}
       {deleteData && (
         <DeleteModal
           deleteData={deleteData}
