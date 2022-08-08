@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ShowImportData = ({ tableRows, values }) => {
-    console.log(values);
+  
   return (
       <>
     <h2 className='text-2xl font-bold mt-5 mb-5'>Imported Data</h2>
