@@ -5,14 +5,29 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import DeleteModal from '../DeleteModal/DeleteModal';
 import UpdateData from '../UpdateData/UpdateData';
+import Papa from 'papaparse';
+import ShowImportData from '../ShowImportData/ShowImportData';
 const CreateData = () => {
   const [validateData, setValidateData] = useState(false);
   const [deleteData, setDeleteData] = useState(null);
   const [updateData, setUpdateData] = useState(null);
+
+  // parse csv data
+
+  const [parsedData, setParsedData] = useState([]);
+
+  //State to store table Column name
+  const [tableRows, setTableRows] = useState([]);
+
+  //State to store the values
+  const [values, setValues] = useState([]);
+
   console.log(deleteData);
 
-  const {  data, refetch } = useQuery(['showData'], () =>
-    fetch('https://vast-castle-09974.herokuapp.com/getData').then((res) => res.json())
+  const { data, refetch } = useQuery(['showData'], () =>
+    fetch('https://vast-castle-09974.herokuapp.com/getData').then((res) =>
+      res.json()
+    )
   );
   console.log(data);
 
@@ -62,6 +77,32 @@ const CreateData = () => {
           }
         });
     }
+  };
+  const changeHandler = (event) => {
+    // Passing file data (event.target.files[0]) to parse using Papa.parse
+    Papa.parse(event.target.files[0], {
+      header: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        const rowsArray = [];
+        const valuesArray = [];
+
+        // Iterating data to get column name and their values
+        results.data.map((d) => {
+          rowsArray.push(Object.keys(d));
+          valuesArray.push(Object.values(d));
+        });
+
+        // Parsed Data Response in array format
+        setParsedData(results.data);
+
+        // Filtered Column Names
+        setTableRows(rowsArray[0]);
+
+        // Filtered Values
+        setValues(valuesArray);
+      },
+    });
   };
   return (
     <>
@@ -132,11 +173,24 @@ const CreateData = () => {
         </div>
       </div>
       <div className="w-[95%] mx-auto">
-        <div className='flex gap-2 justify-center items-center '>
+        <div className="flex gap-2 justify-center items-center ">
+          {/* File Uploader */}
+          <input
+            type="file"
+            name="file"
+            accept=".csv"
+            onChange={changeHandler}
+            className="border mt-4 bg-primary text-white p-2"
+          />
+
           <h2 className="text-3xl font-bold mt-10 mb-5">Show Data</h2>
           <span>
-            <CsvDownload data={data} filename="good_data.csv" className="btn btn-small mt-4 bg-primary rounded-md hover:bg-primary-focus">
-             Download 
+            <CsvDownload
+              data={data}
+              filename="good_data.csv"
+              className="btn btn-small mt-4 bg-primary rounded-md hover:bg-primary-focus"
+            >
+              Download
             </CsvDownload>
           </span>
         </div>
@@ -194,6 +248,7 @@ const CreateData = () => {
         </div>
       </div>
 
+      { values &&  <ShowImportData tableRows={tableRows} values={values}></ShowImportData>}
       {deleteData && (
         <DeleteModal
           deleteData={deleteData}
@@ -202,7 +257,13 @@ const CreateData = () => {
         ></DeleteModal>
       )}
 
-      {updateData && <UpdateData updateData={updateData} refetch={refetch} setUpdateData={setUpdateData}></UpdateData>}
+      {updateData && (
+        <UpdateData
+          updateData={updateData}
+          refetch={refetch}
+          setUpdateData={setUpdateData}
+        ></UpdateData>
+      )}
     </>
   );
 };
