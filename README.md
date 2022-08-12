@@ -7,7 +7,7 @@ This is a simple MERN Stack project based on CRUD operation.
 Live Demo: [Test Task ](https://test-task-8d432.web.app/).
 
 ## Server Side Github link
-Live Demo: [Server Side ](https://github.com/Abidur-Rahman-Chowdhury/test-task-server).
+Serve-Link: [Server Side ](https://github.com/Abidur-Rahman-Chowdhury/test-task-server).
 
 ## Features
 
